@@ -5,7 +5,9 @@ import { trpc } from "../_trpc/client";
 import { useCallback, useState } from "react";
 import { serverClient } from "../_trpc/server";
 
-type Todo = Awaited<ReturnType<(typeof serverClient)["getTodos"]>>[number];
+type Todo = Awaited<
+  ReturnType<(typeof serverClient)["todo"]["getTodos"]>
+>[number];
 
 interface TodoListProps {
   initialTodos: Todo[];
@@ -13,7 +15,7 @@ interface TodoListProps {
 
 const TodoList = ({ initialTodos }: TodoListProps) => {
   const [done, setDone] = useState<number | undefined>();
-  const todos = trpc.getTodos.useQuery(
+  const todos = trpc.todo.getTodos.useQuery(
     {
       done,
     },
@@ -23,13 +25,13 @@ const TodoList = ({ initialTodos }: TodoListProps) => {
       refetchOnReconnect: false,
     }
   );
-  const addTodo = trpc.addTodo.useMutation({
+  const addTodo = trpc.todo.addTodo.useMutation({
     onSuccess(data, variables, context) {
       setContext("");
       todos.refetch();
     },
   });
-  const changeTodoState = trpc.changeTodoState.useMutation({
+  const changeTodoState = trpc.todo.changeTodoState.useMutation({
     onSuccess(data, variables, context) {
       todos.refetch();
     },
