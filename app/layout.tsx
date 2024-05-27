@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Provider from "./_trpc/Provider";
+import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,12 +13,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  team,
 }: Readonly<{
   children: React.ReactNode;
+  team: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body className={inter.className}>
+        <div className=" bg-teal-50">{team}2</div>
         <Provider>{children}</Provider>
       </body>
     </html>
