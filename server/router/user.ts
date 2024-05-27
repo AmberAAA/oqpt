@@ -22,15 +22,14 @@ export const todoRouter = router({
       if (typeof input?.done === "number") {
         args.push(eq(todos.done, input.done));
       }
-      const todoList = db
+      const todoList = await db
         .select()
         .from(todos)
-        .where(and(...args))
-        .all();
+        .where(and(...args));
       return todoList;
     }),
   addTodo: publicProcedure.input(z.string()).mutation(async ({ input }) => {
-    await db.insert(todos).values({ context: input, done: 0 }).run();
+    await db.insert(todos).values({ context: input, done: 0 });
     return true;
   }),
   changeTodoState: publicProcedure
@@ -39,6 +38,11 @@ export const todoRouter = router({
       await db
         .update(todos)
         .set({ done: input.done })
-        .where(eq(todos.id, input.id));
+        .where(eq(todos.id, input.id))
+        .returning();
     }),
+  delete: publicProcedure.input(z.number()).mutation(async ({ input: id }) => {
+    await db.delete(todos).where(eq(todos.id, id)).returning();
+    return true;
+  }),
 });

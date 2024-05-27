@@ -36,6 +36,11 @@ const TodoList = ({ initialTodos }: TodoListProps) => {
       todos.refetch();
     },
   });
+  const deleteTodo = trpc.todo.delete.useMutation({
+    onSuccess: () => {
+      todos.refetch();
+    },
+  });
   const [context, setContext] = useState("");
 
   return (
@@ -64,6 +69,12 @@ const TodoList = ({ initialTodos }: TodoListProps) => {
             <span>{i.id}</span>
             <span>-</span>
             <span>{i.context}</span>
+            <span
+              className=" text-red-600 font-bold"
+              onClick={() => deleteTodo.mutate(i.id)}
+            >
+              x
+            </span>
           </div>
         ))}
         <hr />
