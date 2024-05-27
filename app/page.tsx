@@ -2,6 +2,8 @@ import React from "react";
 import TodoList from "./_components/TodoList";
 import { serverClient } from "./_trpc/server";
 
+export const revalidate = 0;
+
 export default async function Home() {
   const todos = await serverClient.todo.getTodos();
   return (
