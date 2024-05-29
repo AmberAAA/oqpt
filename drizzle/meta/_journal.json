@@ -8,6 +8,13 @@
       "when": 1716614083337,
       "tag": "0000_white_the_professor",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1716969586779,
+      "tag": "0001_icy_ender_wiggin",
+      "breakpoints": true
     }
   ]
 }
