@@ -2,11 +2,14 @@ import { publicProcedure, router } from "../trpc";
 import z from "zod";
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
-import { todos, users } from "@/db/schema";
+import * as schema from "@/db/schema";
+
 import { SQL, and, eq } from "drizzle-orm";
 
+const { posts, todos, userPosts, users } = schema;
+
 const sqlite = new Database("sqlite.db");
-const db = drizzle(sqlite);
+const db = drizzle(sqlite, { schema });
 
 export const todoRouter = router({
   getTodos: publicProcedure
@@ -46,7 +49,7 @@ export const todoRouter = router({
     return true;
   }),
   users: publicProcedure.query(async () => {
-    const list = await db.select().from(users);
+    const list = db.query.users.findMany({ with: { posts: true } });
     return list;
   }),
 });
