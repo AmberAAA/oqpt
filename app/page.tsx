@@ -1,6 +1,7 @@
 import React from "react";
 import TodoList from "./_components/TodoList";
 import { serverClient } from "./_trpc/server";
+import MotionDemo from "./_components/MotionDemo";
 
 export const revalidate = 0;
 
@@ -11,6 +12,8 @@ export default async function Home() {
       server - {todos.length}
       <hr />
       <TodoList initialTodos={todos} />
+      <hr />
+      <MotionDemo />
     </main>
   );
 }
