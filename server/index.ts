@@ -8,6 +8,7 @@ const db = drizzle(sqlite);
 
 export const appRouter = router({
   todo: todoRouter,
+  user: todoRouter,
 });
 
 export type AppRouter = typeof appRouter;

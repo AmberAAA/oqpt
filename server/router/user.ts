@@ -2,7 +2,7 @@ import { publicProcedure, router } from "../trpc";
 import z from "zod";
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
-import { todos } from "@/db/schema";
+import { todos, users } from "@/db/schema";
 import { SQL, and, eq } from "drizzle-orm";
 
 const sqlite = new Database("sqlite.db");
@@ -44,5 +44,9 @@ export const todoRouter = router({
   delete: publicProcedure.input(z.number()).mutation(async ({ input: id }) => {
     await db.delete(todos).where(eq(todos.id, id)).returning();
     return true;
+  }),
+  users: publicProcedure.query(async () => {
+    const list = await db.select().from(users);
+    return list;
   }),
 });
